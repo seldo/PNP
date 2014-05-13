@@ -1,3 +1,8 @@
+<%
+var fun = function() {
+  return "woo"
+}
+%>
 <% title = 'Hello!' %>
 <% include templates/header %>
 
@@ -7,4 +12,8 @@
 
 <p>Also <a href="/baz">baz</a> and <a href="woo">woo</a>.</p>
 
-<p>The time is <%= new Date() %>. I'm adding stuff.</p>
+<p>The time is <%= new Date() %>.</p>
+
+<p>Is this <%= fun() %>?</p>
+
+<% include templates/footer %>
