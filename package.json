@@ -1,7 +1,7 @@
 {
   "name": "pnp",
-  "version": "0.0.0",
-  "description": "A terrible idea",
+  "version": "0.0.1",
+  "description": "A terrible idea, realized",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
@@ -10,7 +10,7 @@
   "bin": {
     "pnp": "./cli.js"
   },
-  "author": "",
+  "author": "Laurie Voss <github@seldo.com>",
   "license": "ISC",
   "dependencies": {
     "ejs": "^1.0.0",

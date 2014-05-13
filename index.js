@@ -12,6 +12,16 @@ var options = [
     type: 'string'
   },
   {
+    names: ['port','p'],
+    type: 'string',
+    default: '5000'
+  },
+  {
+    names: ['host','h'],
+    type: 'string',
+    default: '0.0.0.0'
+  },
+  {
     names: ['docroot','d'],
     type: 'string',
     default: '.'
@@ -30,7 +40,7 @@ if(opts['config']) {
 Config.docRoot = path.normalize(opts.docroot)
 
 var server = http.createServer()
-server.listen(Config.server.port,Config.server.host)
+server.listen(opts.port,opts.host)
 
 server.on('request',function(req,res) {
 
