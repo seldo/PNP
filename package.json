@@ -16,5 +16,21 @@
     "ejs": "^1.0.0",
     "url": "^0.10.1",
     "dashdash": "^1.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seldo/PNP.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seldo/PNP/issues"
+  },
+  "homepage": "https://github.com/seldo/PNP",
+  "keywords": [
+    "php",
+    "simple",
+    "basic",
+    "web",
+    "server",
+    "simplehttpserver"
+  ]
 }
