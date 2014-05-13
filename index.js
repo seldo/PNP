@@ -1,10 +1,33 @@
 var http = require('http')
-var Config = require('./config.json')
 var fs = require('fs')
 var url = require('url')
 var path = require('path')
 var util = require('./lib/util')
 var ejs = require('ejs')
+var dashdash = require('dashdash')
+
+var options = [
+  {
+    names: ['config','c','conf'],
+    type: 'string'
+  },
+  {
+    names: ['docroot','d'],
+    type: 'string',
+    default: '.'
+  }
+]
+var opts = dashdash.parse({options: options});
+console.log(opts)
+
+// pull in defaults and user-supplied config
+var Config = require('./config.json')
+if(opts['config']) {
+  for (var p in opts.config) {
+    Config[p] = opts.config[p]
+  }
+}
+Config.docRoot = path.normalize(opts.docroot)
 
 var server = http.createServer()
 server.listen(Config.server.port,Config.server.host)
@@ -16,7 +39,7 @@ server.on('request',function(req,res) {
   console.log(request)
 
   var render = function(filePath,statusCode) {
-    console.log("Filepath is " + filePath)
+    console.log("Rendering file " + filePath)
     if (!statusCode) statusCode = 200
     // if it's not a template file, just deliver it raw
     if (util.getExtension(filePath) != Config.extension) {
@@ -33,10 +56,15 @@ server.on('request',function(req,res) {
         if (er) {
           send(util.get500(),500)
         } else {
-          console.log("Renderrrred")
           var output
           try {
-            send(ejs.render(file, {filename:filePath}),statusCode)
+            send(ejs.render(
+              file,
+              {
+                filename:filePath,
+                _GET:request.query
+              }
+            ),statusCode)
           } catch (e) {
             send(util.get500(e),500)
           }
@@ -58,23 +86,24 @@ server.on('request',function(req,res) {
   }
 
   // try explicit path
-  var filePath = Config.docRoot + request.pathname
+  var simplePath = util.normalizePath(request.pathname)
+  var filePath = path.normalize(Config.docRoot + simplePath)
   // if it hasn't got an extension and doesn't look like a directory, use the default
   if (
-    !util.hasExtension(request.pathname) &&
-    !util.hasTrailingSlash(request.pathname)
+    !util.hasExtension(simplePath) &&
+    !util.hasTrailingSlash(simplePath)
     ) filePath += '.' + Config.extension
   fs.stat(filePath,function(er,stats) {
     if (er || !stats.isFile()) {
       // try index file
-      filePath = Config.docRoot + request.pathname + Config.index + '.' + Config.extension
+      filePath = path.normalize(Config.docRoot + simplePath + Config.index + '.' + Config.extension)
       fs.stat(filePath,function(er,stats) {
         if (er || !stats.isFile()) {
           // try adding a trailing slash
-          if (util.hasTrailingSlash(request.pathname)) {
+          if (util.hasTrailingSlash(simplePath)) {
             send(util.get404(),404)
           } else {
-            redirect(request.pathname + "/" + request.search)
+            redirect(simplePath + "/" + request.search)
           }
         } else {
           render(filePath)
