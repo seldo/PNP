@@ -6,6 +6,8 @@ fast like I could in PHP?"
 Well, screw you, I built this anyway! PNP serves a website that consists of nothing but EJS 
 templates and static files, from any folder you choose.
 
+**Update:** PNP is now [in production](http://silly.technology)!
+
 ## Installation
 
 PNP is best used as a global utility:
