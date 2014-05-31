@@ -1,6 +1,6 @@
 {
   "name": "pnp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A terrible idea, realized",
   "main": "index.js",
   "scripts": {
