@@ -44,7 +44,7 @@ server.listen(opts.port,opts.host)
 
 server.on('request',function(req,res) {
 
-  var request = url.parse(req.headers.host + req.url, true)
+  var request = url.parse(req.url, true)
   if(request.path == '/favicon.ico') return
   console.log(request)
 
