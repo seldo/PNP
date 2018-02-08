@@ -13,9 +13,9 @@
   "author": "Laurie Voss <github@seldo.com>",
   "license": "ISC",
   "dependencies": {
-    "ejs": "^1.0.0",
-    "url": "^0.10.1",
-    "dashdash": "^1.5.0"
+    "ejs": "^2.5.7",
+    "url": "^0.11.0",
+    "dashdash": "^1.14.0"
   },
   "repository": {
     "type": "git",
